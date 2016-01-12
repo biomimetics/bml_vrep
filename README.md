@@ -18,5 +18,5 @@ Running Demo
 ============
 
  * roslaunch bml\_vrep demo.launch
- * (in a separate terminal for each robot, replace n with robot number) roslaunch bml\_vrep keyboard\_input.launch robot=robot\_n
+ * (in a separate terminal for each robot, replace n with robot number) roslaunch bml\_vrep keyboard\_input.launch robot=robot\_n. You'll probably want to lower the speed to prevent the robots from falling over.
  * To quit, find the keyboard input window (should have a keyboard icon in the taskbar) and enter q in it before ctrl-c killing everything else
