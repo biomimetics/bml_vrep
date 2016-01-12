@@ -1,0 +1,6 @@
+<launch>
+  
+  <arg name="bagfile_in" default="input.bag" />
+  <node pkg="rosbag" type="play" args="$(bagfile_in)" />
+
+</launch>

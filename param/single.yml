@@ -1,0 +1,10 @@
+stop_condition: "manual"
+robots: [
+  {
+    model_file: "bubble_rob_laser.ttm",
+    initial_pose: {
+      position: {x: 0.0, y: 0.0, z: 0.12},
+      orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}
+    }
+  },
+]

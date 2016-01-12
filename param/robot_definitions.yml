@@ -1,0 +1,8 @@
+bubble_rob_laser: {
+  base_width: 0.1
+  drive_radius: 0.02
+  drive_sides: [1,2]
+  laser_joints: [3,[3,1]]
+  cameras: [4]
+  imu: 5
+}

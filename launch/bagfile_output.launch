@@ -1,0 +1,9 @@
+<launch>
+
+  <arg name="namespace" default="/robot0" />
+  <arg name="out_bagfile" default="" />
+
+  <arg name="bagfile_topics" default="/tf image_raw imu" />
+  <node pkg="rosbag" type="record" name="rosbag_record" args="-O $(arg bagfile_topics)" />
+
+</launch>

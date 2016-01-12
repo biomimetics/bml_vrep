@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="headless" default="false" />
+  
+  <include file="$(find bml_vrep)/launch/vrep_monitor.launch">
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="param_filename" value="$(find bml_vrep)/param/demo.yml" />
+  </include>
+
+  <group ns="robot_0">
+    <include file="$(find bml_vrep)/launch/vrep_ar_track.launch" />
+  </group>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bml_vrep)/rviz/demo.rviz" />
+
+</launch>

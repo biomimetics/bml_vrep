@@ -1,0 +1,9 @@
+<launch>
+  <arg name="camera" default="camera_0" />
+  <arg name="marker_size" default="17.0" />
+  <arg name="max_new_marker_error" default="0.08" />
+  <arg name="max_track_error" default="0.2" />
+
+  <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg camera)/image $(arg camera)/camera_info $(arg camera)" />
+
+</launch>
