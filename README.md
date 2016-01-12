@@ -9,7 +9,7 @@ Setup
  * Install packages ros-indigo-ar-track-alvar, ros-indigo-keyboard, ros-indigo-teleop-twist-keyboard
  * Add environment variable VREP\_ROOT\_DIR to bashrc that points to v-rep isntall directory
  * Add VREP\_ROOT\_DIR to path
- * Put ar\_track.ttt in VREP\_ROOT\_DIR/scenes and bubble\_rob\_laser.ttm in VREP\_ROOT\_DIR/models/robots/mobile
+ * Put ar\_tag.ttt in VREP\_ROOT\_DIR/scenes and bubble\_rob\_laser.ttm in VREP\_ROOT\_DIR/models/robots/mobile
  * Create ROS workspace and add this repo, as well as a symbolic link to the full path to VREP\_ROOT\_DIR/programming/ros\_packages to the worspace src directory
  * Create a symbolic link to VREP\_ROOT\_DIR/programming/ros\_packages/ros\_bubble\_rob/include/v\_repConst.h in this repo's include directory
  * Create a symbolic link to VREP\_ROOT\_DIR/vrep.sh in this repo's src directory
