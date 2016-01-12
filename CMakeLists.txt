@@ -124,10 +124,6 @@ include_directories(
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-add_executable(vrepROSZumyBridge src/vrepROSZumyBridge.cpp)
-target_link_libraries(vrepROSZumyBridge ${catkin_LIBRARIES})
-add_dependencies(vrepROSZumyBridge vrep_common_generate_messages_cpp)
-
 ## Declare a C++ library
 # add_library(bml_vrep
 #   src/${PROJECT_NAME}/bml_vrep.cpp
