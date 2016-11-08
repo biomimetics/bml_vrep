@@ -2,8 +2,19 @@
 
 Code for running vrep simulations of Biomimetic Millisystems Lab robots with ROS
 
-Setup
-=====
+Setup for v-rep 3.3.2
+=====================
+
+ * Install v-rep 3.3.2 rev3
+ * Install [catkin tools](http://catkin-tools.readthedocs.io/en/latest/installing.html)
+ * Add environment variable VREP\_ROOT
+ * replace VREP\_ROOT\programming/ros\_packages/v\_repExtRosInterface with repo at github.com/abuchan/v\_repExtRosInterface.git
+ * catkin build
+ * link devel/lib/libv\_repExtRosInterface.so in v-rep root
+ * In vrep\_root/programming/v\_repExtRemoteApi add `-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255` to makefile `CFLAGS` variable, run `make`, link libv\_repExtRemoteApi.so in bml\_vrep/src as remoteApi.so
+
+Setup for v-rep 3.2.2
+=====================
 
  * Install v-rep 3.2.2
  * Install packages ros-indigo-ar-track-alvar, ros-indigo-keyboard, ros-indigo-teleop-twist-keyboard
