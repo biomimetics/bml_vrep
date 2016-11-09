@@ -17,12 +17,6 @@ robots: [
         position: [0.0, 0.0, 0.02],
         orientation: [0.0, 0.0, 0.0, 1.0],
       },
-      {
-        model_filename: "ros_imu.ttm",
-        topic: "imu",
-        position: [0.0, 0.02, 0.02],
-        orientation: [0.0, 0.0, 0.0, 1.0],
-      },
     ]
   },
   {
