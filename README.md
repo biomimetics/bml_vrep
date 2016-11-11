@@ -9,14 +9,15 @@ Setup/Demo for v-rep 3.3.2
  * Install [catkin tools](http://catkin-tools.readthedocs.io/en/latest/installing.html)
  * export environment variable VREP\_ROOT with the full path to the vrep dir, and `export PATH=$PATH:VREP\ROOT` to your bashrc
  * Copy the `coop_slam` folder from the [Dropbox](https://www.dropbox.com/home/Cooperative%20SLAM/vrep/coop_slam) into VREP\_ROOT
- * replace VREP\_ROOT/programming/ros\_packages/v\_repExtRosInterface with repo at github.com/abuchan/v\_repExtRosInterface.git
+ * replace VREP\_ROOT/programming/ros\_packages/v\_repExtRosInterface with repo at github.com/biomimetics/v\_repExtRosInterface.git
  * make a catkin workspace
  * have this repo and a symbolic link to the vrep/programming/ros\_packages folder in the src directory of the catkin workspace
  * run `catkin build` (not catkin\_make) from workspace root
  * symbolic link from workspace/devel/lib/libv\_repExtRosInterface.so in VREP\_ROOT
- * In VREP\_ROOT/programming/v\_repExtRemoteApi add `-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255` to makefile `CFLAGS` variable, run `make`
- * make symbolic link to libv\_repExtRemoteApi.so in VREP\_ROOT (delete or rename the original)
- * make symbolic link to libv\_repExtRemoteApi.so in bml\_vrep/src named `remoteApi.so`
+ * In VREP\_ROOT/programming/v\_repExtRemoteApi add `-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255` to makefile `CFLAGS` variable. Replace all spaces on indented lines with single tabs.
+ * run `make` from VREP\_ROOT/programming/v\_repExtRemoteApi (this creates a new libv\_repExtRemoteApi.so) 
+ * make symbolic link to new libv\_repExtRemoteApi.so in VREP\_ROOT (delete or rename the original)
+ * make symbolic link to new libv\_repExtRemoteApi.so in bml\_vrep/src named `remoteApi.so`
  * run roscore
  * run vrep.sh
  * roslaunch bml\_vrep vrep\_interface.launch 
