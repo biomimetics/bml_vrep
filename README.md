@@ -15,6 +15,7 @@ Setup/Demo for v-rep 3.3.2
  * run `catkin build` (not catkin\_make) from workspace root
  * symbolic link from workspace/devel/lib/libv\_repExtRosInterface.so in VREP\_ROOT
  * In VREP\_ROOT/programming/v\_repExtRemoteApi add `-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255` to makefile `CFLAGS` variable, run `make`
+ * make symbolic link to libv\_repExtRemoteApi.so in VREP\_ROOT (delete or rename the original)
  * make symbolic link to libv\_repExtRemoteApi.so in bml\_vrep/src named `remoteApi.so`
  * run roscore
  * run vrep.sh
