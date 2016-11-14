@@ -33,7 +33,7 @@ robots: [
       {
         model_filename: "ros_markers.ttm",
         topic: "markers",
-        position: [0.0, 0.0, 0.04],
+        position: [0.0, 0.04, 0.0],
         orientation: [0.0, 0.0, 0.0, 1.0],
         marker_positions: [
           {h:   0.0, x: -0.028, y: -0.034, z: 0.098},
@@ -59,7 +59,7 @@ robots: [
       {
         model_filename: "ros_markers.ttm",
         topic: "markers",
-        position: [0.0, 0.0, 0.04],
+        position: [0.0, 0.04, 0.0],
         orientation: [0.0, 0.0, 0.0, 1.0],
         marker_positions: [
           {h:   0.0, x: -0.122, y:  0.025, z: 0.051},

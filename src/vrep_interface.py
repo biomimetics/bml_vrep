@@ -12,6 +12,7 @@ import rospy
 from tf.transformations import *
 
 import fnmatch
+from collections import OrderedDict
 
 GROUP_DATA_NAMES = 0
 
@@ -53,7 +54,7 @@ class VrepInterface():
     if rospy.has_param('robots'):
       robot_count = 0
       
-      configs = {}
+      configs = OrderedDict()
 
       for robot in rospy.get_param('robots'):
         robot_namespace = '/robot_%02d' % robot_count
@@ -85,9 +86,11 @@ class VrepInterface():
         vrep.simx_opmode_blocking)
       
       names = dict(zip(handles, string_data))
+      
+      print names
 
-      for handle,config in configs.items():
-        vrep.simxCallScriptFunction(self.client_id, names[handle], 
+      for handle,config in configs.items()[-1::-1]:
+        print vrep.simxCallScriptFunction(self.client_id, names[handle], 
           vrep.sim_scripttype_customizationscript, 'config', *config, 
             operationMode=vrep.simx_opmode_blocking)
   
@@ -108,6 +111,10 @@ class VrepInterface():
       [ros_topic],
       ''
     ]
+
+    if 'marker_positions' in kwargs.keys():
+      mp = kwargs['marker_positions']
+      config[1] += [mp[i][k] for i in range(len(mp)) for k in ['h','x','y','z']]
 
     return model_handle, config
   
