@@ -1,0 +1,15 @@
+scene_file: "empty.ttt"
+robots: [
+  {
+    model_filename: "ros_camera.ttm",
+    topic: "camera",
+    position: [0.01, 0.0, 0.0],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+  },
+  {
+    model_filename: "ros_scanner.ttm",
+    topic: "scanner",
+    position: [-0.01, 0.0, 0.0],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+  },
+]
