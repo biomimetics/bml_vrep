@@ -49,16 +49,24 @@ class VrepInterface():
   def load_models(self):
     if self.client_id == -1:
       return
-
-    # Add robots and child objects specified in parameter file
+    
+    configs = OrderedDict()
+    
+    # Add scene objects
+    if rospy.has_param('objects'):
+      for obj in rospy.get_param('objects'):
+        object_handle, config = self.add_model_get_config(ros_topic=obj['stl_filename'], **obj)
+        configs[object_handle] = config
+        print configs
+  
+    # Add robots and child objects specified in parameter file creating appropriate
+    # namespaces
     if rospy.has_param('robots'):
       robot_count = 0
       
-      configs = OrderedDict()
 
       for robot in rospy.get_param('robots'):
         robot_namespace = '/robot_%02d' % robot_count
-        #robot_handle, center_handle = self.add_model(ros_topic=robot_namespace, **robot)
         
         robot_handle, config = self.add_model_get_config(ros_topic=robot_namespace, **robot)
         configs[robot_handle] = config
@@ -81,22 +89,21 @@ class VrepInterface():
 
         robot_count += 1
 
-      _, handles, _, _, string_data = vrep.simxGetObjectGroupData(
-        self.client_id, vrep.sim_appobj_object_type, GROUP_DATA_NAMES,
-        vrep.simx_opmode_blocking)
-      
-      names = dict(zip(handles, string_data))
-      
-      print names
+    _, handles, _, _, string_data = vrep.simxGetObjectGroupData(
+      self.client_id, vrep.sim_appobj_object_type, GROUP_DATA_NAMES,
+      vrep.simx_opmode_blocking)
+    
+    names = dict(zip(handles, string_data))
+    
+    print names
 
-      for handle,config in configs.items()[-1::-1]:
-        print vrep.simxCallScriptFunction(self.client_id, names[handle], 
-          vrep.sim_scripttype_customizationscript, 'config', *config, 
-            operationMode=vrep.simx_opmode_blocking)
-  
+    for handle,config in configs.items()[-1::-1]:
+      print vrep.simxCallScriptFunction(self.client_id, names[handle], 
+        vrep.sim_scripttype_customizationscript, 'config', *config, 
+          operationMode=vrep.simx_opmode_blocking)
+
   def add_model_get_config(self, model_filename, ros_topic,
     position=3*[0.0], orientation=3*[0.0]+[1.0], parent_handle=-1, **kwargs):
-
 
     model_handle = None
     model_file = directory_search(model_filename)

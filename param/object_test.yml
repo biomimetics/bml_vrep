@@ -1,0 +1,61 @@
+scene_file: "empty.ttt"
+objects: [
+  {
+    model_filename: "stl_object.ttm",
+    stl_filename: "/home/abuchan/surface.stl",
+    position: [0.0, 0.0, 0.2],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+  },
+]
+robots: [
+  {
+    model_filename: "ros_zumy_base.ttm",
+    position: [0.0, 0.0, 0.0],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+    children: [
+      {
+        model_filename: "ros_camera.ttm",
+        topic: "camera",
+        position: [0.0, 0.0, 0.05],
+        orientation: [-0.5, 0.5, -0.5, 0.5],
+      },
+      {
+        model_filename: "ros_scanner.ttm",
+        topic: "scanner",
+        position: [0.0, 0.01, 0.05],
+        orientation: [-0.5, 0.5, -0.5, 0.5],
+      },
+      {
+        model_filename: "ros_imu.ttm",
+        topic: "imu",
+        position: [0.0, 0.0, 0.02],
+        orientation: [0.0, 0.0, 0.0, 1.0],
+      },
+    ]
+  },
+  {
+    model_filename: "ros_zumy_base.ttm",
+    position: [0.2, 0.0, 0.0],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+    children: [
+      {
+        model_filename: "ros_camera.ttm",
+        topic: "camera",
+        position: [0.0, 0.0, 0.05],
+        orientation: [-0.5, 0.5, -0.5, 0.5],
+      },
+      {
+        model_filename: "ros_scanner.ttm",
+        topic: "scanner",
+        position: [0.0, 0.01, 0.05],
+        orientation: [-0.5, 0.5, -0.5, 0.5],
+      },
+      {
+        model_filename: "ros_imu.ttm",
+        topic: "imu",
+        position: [0.0, 0.0, 0.02],
+        orientation: [0.0, 0.0, 0.0, 1.0],
+      },
+    ]
+  },
+]
