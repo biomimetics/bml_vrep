@@ -10,6 +10,8 @@ os.chdir(VREP_ROOT + '/programming/remoteApiBindings/lib/lib/64Bit')
 import vrep
 import rospy
 from tf.transformations import *
+from std_msgs.msg import Float32
+from rosgraph_msgs.msg import Clock
 
 import fnmatch
 from collections import OrderedDict
@@ -208,6 +210,22 @@ class VrepInterface():
     if self.client_id != -1:
       vrep.simxPauseSimulation(self.client_id, vrep.simx_opmode_oneshot)
   
+  def clock_callback(self, msg):
+    self.clock_pub.publish(Clock(rospy.Time.from_sec(msg.data)))
+  
+  def run(self):
+    rospy.init_node('vrep_interface')
+    self.clock_sub = rospy.Subscriber(
+      '/float_clock', Float32, self.clock_callback, queue_size=1
+    )
+    self.clock_pub = rospy.Publisher(
+      '/clock', Clock, queue_size=1
+    )
+    
+    rate = rospy.Rate(10)
+    while not rospy.is_shutdown():
+      rate.sleep()
+
   def __del__(self):
     # Now close the connection to V-REP:
     if self.client_id != -1:
@@ -217,3 +235,4 @@ if __name__ == '__main__':
   vi = VrepInterface()
   vi.load_scene()
   vi.load_models()
+  vi.run()

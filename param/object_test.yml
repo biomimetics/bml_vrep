@@ -1,9 +1,12 @@
 scene_file: "empty.ttt"
 objects: [
   {
+    model_filename: "ros_clock.ttm"
+  },
+  {
     model_filename: "stl_object.ttm",
-    stl_filename: "/home/abuchan/surface.stl",
-    position: [0.0, 0.0, 0.2],
+    stl_filename: "/home/abuchan/projects/bml_vrep/src/surface.stl",
+    position: [0.0, 0.0, 0.0],
     orientation: [0.0, 0.0, 0.0, 1.0],
   },
 ]
