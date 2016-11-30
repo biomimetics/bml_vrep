@@ -55,7 +55,10 @@ class VrepInterface():
     # Add scene objects
     if rospy.has_param('objects'):
       for obj in rospy.get_param('objects'):
-        object_handle, config = self.add_model_get_config(ros_topic=obj['stl_filename'], **obj)
+        if 'stl_filename' in obj.keys():
+          object_handle, config = self.add_model_get_config(ros_topic=obj['stl_filename'], **obj)
+        else:
+          object_handle, config = self.add_model_get_config(**obj)
         configs[object_handle] = config
         print configs
   
