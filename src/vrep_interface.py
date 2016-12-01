@@ -58,7 +58,8 @@ class VrepInterface():
     if rospy.has_param('objects'):
       for obj in rospy.get_param('objects'):
         if 'stl_filename' in obj.keys():
-          object_handle, config = self.add_model_get_config(ros_topic=obj['stl_filename'], **obj)
+          stl_file = directory_search(obj['stl_filename'])
+          object_handle, config = self.add_model_get_config(ros_topic=stl_file, **obj)
         else:
           object_handle, config = self.add_model_get_config(**obj)
         configs[object_handle] = config
@@ -107,7 +108,7 @@ class VrepInterface():
         vrep.sim_scripttype_customizationscript, 'config', *config, 
           operationMode=vrep.simx_opmode_blocking)
 
-  def add_model_get_config(self, model_filename, ros_topic,
+  def add_model_get_config(self, model_filename, ros_topic='',
     position=3*[0.0], orientation=3*[0.0]+[1.0], parent_handle=-1, **kwargs):
 
     model_handle = None
