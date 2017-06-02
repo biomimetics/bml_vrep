@@ -36,6 +36,8 @@ class VrepInterface():
 
     self.stop_sim()
 
+    self.object_suffix = ''
+
   def load_scene(self):
     if self.client_id != -1:
       # Close last open scene
@@ -59,11 +61,10 @@ class VrepInterface():
       for obj in rospy.get_param('objects'):
         if 'stl_filename' in obj.keys():
           stl_file = directory_search(obj['stl_filename'])
-          object_handle, config = self.add_model_get_config(ros_topic=stl_file, **obj)
+          object_handle, config, center_handle = self.add_model_get_config(ros_topic=stl_file, **obj)
         else:
-          object_handle, config = self.add_model_get_config(**obj)
+          object_handle, config, center_handle = self.add_model_get_config(**obj)
         configs[object_handle] = config
-        print configs
   
     # Add robots and child objects specified in parameter file creating appropriate
     # namespaces
@@ -74,8 +75,10 @@ class VrepInterface():
       for robot in rospy.get_param('robots'):
         robot_namespace = '/robot_%02d' % robot_count
         
-        robot_handle, config = self.add_model_get_config(ros_topic=robot_namespace, **robot)
+        robot_handle, config, robot_center_handle = self.add_model_get_config(ros_topic=robot_namespace, **robot)
         configs[robot_handle] = config
+        
+        print 'robot %d center %d' % (robot_handle, robot_center_handle)
 
         if 'children' in robot.keys():
           child_counts = {}
@@ -88,8 +91,9 @@ class VrepInterface():
               child_counts[topic] += 1
             full_topic = '%s/%s_%d' % (robot_namespace, topic, child_counts[topic])
             
-            child_handle, config = self.add_model_get_config(
-              ros_topic=full_topic, parent_handle=robot_handle, **child)
+            child_handle, config, child_center_handle = self.add_model_get_config(
+              ros_topic=full_topic, parent_handle=robot_handle, 
+              parent_center_handle=robot_center_handle, **child)
 
             configs[child_handle] = config
 
@@ -101,25 +105,41 @@ class VrepInterface():
     
     names = dict(zip(handles, string_data))
     
-    print names
-
-    for handle,config in configs.items()[-1::-1]:
-      print vrep.simxCallScriptFunction(self.client_id, names[handle], 
+    for handle, name in names.items():
+      print '%02d:%s' % (handle, name)
+    
+    for handle, config in configs.items()[-1::-1]:
+      retval = vrep.simxCallScriptFunction(self.client_id, names[handle], 
         vrep.sim_scripttype_customizationscript, 'config', *config, 
           operationMode=vrep.simx_opmode_blocking)
+      
+      print names[handle] + ' : ' + str(retval)
+      for entry in config:
+        print '  ' + str(entry)
 
   def add_model_get_config(self, model_filename, ros_topic='',
-    position=3*[0.0], orientation=3*[0.0]+[1.0], parent_handle=-1, **kwargs):
+    position=3*[0.0], orientation=3*[0.0]+[1.0], parent_handle=-1,
+    parent_center_handle=-1, **kwargs):
 
     model_handle = None
     model_file = directory_search(model_filename)
-    
+    center_handle = None
+
     if model_file is not None:
+
       _, model_handle = vrep.simxLoadModel(
         self.client_id, model_file, 0, vrep.simx_opmode_blocking)
 
+      _, center_handle = vrep.simxGetObjectHandle(
+        self.client_id, 'center#%s' % self.object_suffix, vrep.simx_opmode_blocking)
+      
+      if self.object_suffix == '':
+        self.object_suffix = '0'
+      else:
+        self.object_suffix = str(int(self.object_suffix)+1)
+
     config = [
-      [parent_handle],
+      [parent_handle, parent_center_handle],
       position + orientation,
       [ros_topic],
       ''
@@ -129,7 +149,7 @@ class VrepInterface():
       mp = kwargs['marker_positions']
       config[1] += [mp[i][k] for i in range(len(mp)) for k in ['h','x','y','z']]
 
-    return model_handle, config
+    return model_handle, config, center_handle
   
   def add_model(self, model_filename, ros_topic, 
     position=3*[0.0], orientation=3*[0.0]+[1.0], parent_handle=-1, **kwargs):
