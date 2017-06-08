@@ -1,0 +1,16 @@
+use_sim_time: true
+scene_file: "walls.ttt"
+objects: [
+  {
+    model_filename: "ros_clock.ttm"
+  },
+]
+robots: [
+  {
+    model_filename: "ros_zumy_base.ttm",
+    position: [0.0, 0.0, 0.0],
+    orientation: [0.0, 0.0, 0.0, 1.0],
+    children: [
+    ]
+  },
+]
