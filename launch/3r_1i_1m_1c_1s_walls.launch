@@ -1,0 +1,13 @@
+<launch>
+  <arg name="scene_filename" default="" />
+  <arg name="headless" default="true" />
+  <arg name="headless_flag" value="" unless="$(arg headless)" />
+  <arg name="headless_flag" value="-h" if="$(arg headless)" />
+
+  <!--node name="vrep" pkg="bml_vrep" type="vrep.sh" args="-q $(arg headless_flag) $(arg scene_filename)" /-->
+
+  <node name="vrep_interface" pkg="bml_vrep" type="vrep_interface.py" output="screen" />
+  
+  <arg name="param_filename" default="$(find bml_vrep)/param/3r_1i_1m_1c_1s_walls.yml" />
+  <rosparam command="load" file="$(arg param_filename)" />
+</launch>
