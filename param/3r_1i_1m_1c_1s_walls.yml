@@ -46,7 +46,7 @@ robots: [
   },
   {
     model_filename: "ros_zumy_base.ttm",
-    position: [0.5, -0.2, 0.0],
+    position: [0.5, -0.15, 0.0],
     orientation: [0.0, 0.0, 0.0, 1.0],
     children: [
       {
@@ -85,7 +85,7 @@ robots: [
   },
   {
     model_filename: "ros_zumy_base.ttm",
-    position: [0.5, 0.2, 0.0],
+    position: [0.5, 0.15, 0.0],
     orientation: [0.0, 0.0, 0.0, 1.0],
     children: [
       {
