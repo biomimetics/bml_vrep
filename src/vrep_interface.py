@@ -9,9 +9,11 @@ os.chdir(VREP_ROOT + '/programming/remoteApiBindings/lib/lib/64Bit')
 
 import vrep
 import rospy
+
 from tf.transformations import *
 from std_msgs.msg import Float32
 from rosgraph_msgs.msg import Clock
+from std_srvs.srv import Trigger, TriggerResponse
 
 import fnmatch
 from collections import OrderedDict
@@ -219,23 +221,31 @@ class VrepInterface():
         child_index += 1
     return child_handle
 
-  def start_sim(self):
+  def start_sim(self, req=None):
     if self.client_id != -1:
       vrep.simxStartSimulation(self.client_id, vrep.simx_opmode_oneshot)
+    return TriggerResponse()
   
-  def stop_sim(self):
+  def stop_sim(self, req=None):
     if self.client_id != -1:
       vrep.simxStopSimulation(self.client_id, vrep.simx_opmode_oneshot)
-  
-  def pause_sim(self):
+    return TriggerResponse()
+
+  def pause_sim(self, req=None):
     if self.client_id != -1:
       vrep.simxPauseSimulation(self.client_id, vrep.simx_opmode_oneshot)
-  
+    return TriggerResponse()
+
   def clock_callback(self, msg):
     self.clock_pub.publish(Clock(rospy.Time.from_sec(msg.data)))
   
   def run(self):
     rospy.init_node('vrep_interface')
+    
+    rospy.Service('vrep_start', Trigger, self.start_sim)
+    rospy.Service('vrep_stop', Trigger, self.stop_sim)
+    rospy.Service('vrep_pause', Trigger, self.pause_sim)
+
     self.clock_sub = rospy.Subscriber(
       '/float_clock', Float32, self.clock_callback, queue_size=1
     )
